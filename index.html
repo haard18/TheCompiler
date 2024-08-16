@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Runner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Run Code</h1>
+    <textarea id="code" placeholder="Write your code here..."></textarea>
+
+    <select id="language">
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+        <option value="cpp">C++</option>
+    </select>
+
+    <button onclick="runCode()">Run Code</button>
+
+    <h2>Output</h2>
+    <pre id="output"></pre>
+
+    <!-- Include Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Axios script for handling requests -->
+    <script>
+        function runCode() {
+            const code = document.getElementById('code').value;
+            const language = document.getElementById('language').value;
+
+            axios.post('http://localhost:3000/run-code', {
+                code: code,
+                language: language
+            })
+            .then(response => {
+                document.getElementById('output').textContent = response.data;
+            })
+            .catch(error => {
+                document.getElementById('output').textContent = `Error: ${error.message}`;
+            });
+        }
+    </script>
+</body>
+</html>
